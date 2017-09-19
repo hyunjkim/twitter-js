@@ -2,8 +2,27 @@ const http = require("http");
 const express = require("express");
 const app = express();
 const logger = require("morgan");
+const nunjucks = require("nunjucks");
+
+app.engine("html", nunjucks.render);
+app.set("view engine", "html");
+
+nunjucks.configure('views', {
+    autoescape: true,
+    express: app,
+    watch: true,
+    noCache: true
+});
 const PORT =  3000;
 
+const obj = {
+  title: "This is great",
+  people: [{
+    name: "xifeng"
+  }, {
+    name: "marshalee"
+  }]
+}
 app.use(logger(function(tokens, req, res) {
   return [
     tokens.method(req, res),
@@ -16,13 +35,11 @@ app.use(logger(function(tokens, req, res) {
   ].join(" ");
 }));
 
+
 app.get("/", function(req, res) {
-  res.end("Welcome to our site");
+  res.render("index.html", obj);
 });
 
-app.get("/special", function(req, res) {
-  res.end("This is a special event");
-});
 
 app.listen(PORT, function() {
   console.log("The server is running at port: " + PORT);
