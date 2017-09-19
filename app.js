@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const logger = require("morgan");
 const nunjucks = require("nunjucks");
+const routes = require("./routes");
 
 app.engine("html", nunjucks.render);
 app.set("view engine", "html");
@@ -13,16 +14,10 @@ nunjucks.configure('views', {
     watch: true,
     noCache: true
 });
+
 const PORT =  3000;
 
-const obj = {
-  title: "This is great",
-  people: [{
-    name: "xifeng"
-  }, {
-    name: "marshalee"
-  }]
-}
+
 app.use(logger(function(tokens, req, res) {
   return [
     tokens.method(req, res),
@@ -36,10 +31,8 @@ app.use(logger(function(tokens, req, res) {
 }));
 
 
-app.get("/", function(req, res) {
-  res.render("index.html", obj);
-});
-
+app.use(express.static("public"));
+app.use("/", routes);
 
 app.listen(PORT, function() {
   console.log("The server is running at port: " + PORT);
