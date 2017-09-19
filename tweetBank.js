@@ -1,5 +1,5 @@
 const _ = require("lodash");
-const data = [{id: 1, name: "xifeng", content: "I love you"}, {id: 2, name: "marshalee", content: "I hate you"}];
+const data = [];
 
 function add(name, content, id = data.length + 1) {
   data.push({id, name, content});
