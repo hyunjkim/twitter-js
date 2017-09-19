@@ -4,7 +4,6 @@ const tweetBank = require("../tweetBank")
 
 router.get("/", function (req,res) {
   let tweets = tweetBank.list();
-  console.log(tweets);
   res.render("index", { tweets });
 });
 

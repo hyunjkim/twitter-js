@@ -4,6 +4,8 @@ const app = express();
 const logger = require("morgan");
 const nunjucks = require("nunjucks");
 const routes = require("./routes");
+const tweets = require("./routes/tweets");
+const users = require("./routes/users");
 
 app.engine("html", nunjucks.render);
 app.set("view engine", "html");
@@ -16,7 +18,6 @@ nunjucks.configure('views', {
 });
 
 const PORT =  3000;
-
 
 app.use(logger(function(tokens, req, res) {
   return [
@@ -33,6 +34,8 @@ app.use(logger(function(tokens, req, res) {
 
 app.use(express.static("public"));
 app.use("/", routes);
+app.use("/users", users);
+app.use("/tweets", tweets);
 
 app.listen(PORT, function() {
   console.log("The server is running at port: " + PORT);
